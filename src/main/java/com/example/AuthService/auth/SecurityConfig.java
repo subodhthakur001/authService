@@ -1,5 +1,7 @@
 package com.example.AuthService.auth;
 
+import com.example.AuthService.entities.UserInfo;
+import com.example.AuthService.eventProducer.UserInfoProducer;
 import com.example.AuthService.repository.UserRepository;
 import com.example.AuthService.service.UserDetailsServiceImpl;
 import io.jsonwebtoken.security.Password;
@@ -37,14 +39,24 @@ public class SecurityConfig {
     @Autowired
     private final UserDetailsServiceImpl userDetailsServiceImpl;
 
-    public SecurityConfig(PasswordEncoder passwordEncoder, UserDetailsServiceImpl userDetailsService){
+    @Autowired
+    private final UserInfoProducer userInfoProducer;
+
+    public SecurityConfig(PasswordEncoder passwordEncoder,
+                          UserDetailsServiceImpl userDetailsService,
+                          UserInfoProducer userInfoProducer){
+
         this.passwordEncoder = passwordEncoder;
         this.userDetailsServiceImpl = userDetailsService;
+        this.userInfoProducer = userInfoProducer;
     }
 
     @Bean
-    public UserDetailsService userDetailsService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        return new UserDetailsServiceImpl(userRepository, passwordEncoder);
+    public UserDetailsService userDetailsService(UserRepository userRepository,
+                                                 PasswordEncoder passwordEncoder,
+                                                 UserInfoProducer userInfoProducer) {
+
+        return new UserDetailsServiceImpl(userRepository, passwordEncoder,userInfoProducer);
     }
 
     @Bean

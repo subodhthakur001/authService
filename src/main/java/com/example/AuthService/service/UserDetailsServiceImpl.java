@@ -30,7 +30,7 @@ public class UserDetailsServiceImpl implements UserDetailsService
 
     private final UserInfoProducer userInfoProducer;
 
-
+    @Autowired
     public UserDetailsServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder,
                                   UserInfoProducer userInfoProducer){
         this.userRepository = userRepository;

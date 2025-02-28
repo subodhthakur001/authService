@@ -1,5 +1,6 @@
 package com.example.AuthService.serializer;
 
+import com.example.AuthService.eventProducer.UserInfoEvent;
 import com.example.AuthService.model.UserInfoDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.io.SerializationException;
@@ -9,7 +10,7 @@ import org.apache.kafka.common.serialization.Serializer;
 import java.io.OutputStream;
 import java.util.Map;
 
-public class UserInfoSerializer implements Serializer<UserInfoDto> {
+public class UserInfoSerializer implements Serializer<UserInfoEvent> {
 
 
     @Override
@@ -17,7 +18,7 @@ public class UserInfoSerializer implements Serializer<UserInfoDto> {
     }
 
     @Override
-    public byte[] serialize(String arg0, UserInfoDto userInfoDto) {
+    public byte[] serialize(String arg0, UserInfoEvent userInfoDto) {
         byte[] retVal = null;
         ObjectMapper objectMapper = new ObjectMapper();
         try{
@@ -29,7 +30,7 @@ public class UserInfoSerializer implements Serializer<UserInfoDto> {
      }
 
     @Override
-    public byte[] serialize(String topic, Headers headers, UserInfoDto data) {
+    public byte[] serialize(String topic, Headers headers, UserInfoEvent data) {
         return Serializer.super.serialize(topic, headers, data);
     }
 
